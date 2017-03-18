@@ -61,6 +61,8 @@ function muMdeditorDirective($parse) {
     function previewRender(plainText, preview) {
       angular.element(preview).addClass('markdown-body');
 
+      // console.log(preview)
+      // console.log(plainText)
       insertHTML(plainText, preview);
       MathJax.Hub.Typeset(preview);
 
@@ -111,7 +113,6 @@ function muMdeditorDirective($parse) {
       }
 
       /* 创建SimpleMDE实例 */
-
       scope.mde = new SimpleMDE({
         spellChecker: false,
         element: element.find('textarea')[0],
@@ -124,6 +125,9 @@ function muMdeditorDirective($parse) {
         configNgModel();
       }
 
+      //插入文件上传提醒
+      insertInform(element);
+
       /* 设置图片上传插件 */
       if (!window.inlineAttachment) {
         throw Error('InlineAttachment未加载');
@@ -135,13 +139,24 @@ function muMdeditorDirective($parse) {
         };
         inlineAttachment.editors.codemirror4.attach(scope.mde.codemirror, option);
       }
+      // setTimeout(function() {
+      //   document.querySelectorAll('.editor-statusbar').forEach(function(element) {
+      //     console.log(element);
+      //     var inform = document.createElement("span");
+      //     inform.innerHTML = "支持上传图片: 拖拽上传或复制粘贴";
+      //     inform.className += 'editor-inform';
+      //     console.log(inform)
+      //     element.insertBefore(inform, element.childNodes[0]);
+      //   })
+      // }, 100)
+
 
       /* 如果提供了content，则把编辑器的值设置为content的值 */
 
       if (attrs.content) {
         scope.mde.value(attrs.content);
       }
-      
+
     }
 
     /**
@@ -150,7 +165,7 @@ function muMdeditorDirective($parse) {
      * @author 邓廷礼 <mymikotomisaka@gmail.com>
      *
      */
-    
+
     function configNgModel() {
       /* 添加watch事件 同步scope和parent的model变量 */
       scope.$watch(modelName, function(newVal, oldVal) {
@@ -191,7 +206,22 @@ function muMdeditorDirective($parse) {
       });
     }
   }
+  /**
+   *
+   * @description 插入支持图片上传的提醒和
+   * @author 陈纪庚 <178854407@qq.com>
+   *
+   */
 
+  function insertInform(element) {
+    var inform = document.createElement("span");
+    inform.innerHTML = "支持上传图片: 拖拽上传或复制粘贴";
+    inform.className += 'editor-inform';
+    var statusNode = element[0].childNodes[4];
+    setTimeout(function() {
+          statusNode.insertBefore(inform, statusNode.childNodes[0]);
+    }, 0)
+  }
   /**
    *
    * @description 返回full类型顶部工具栏
