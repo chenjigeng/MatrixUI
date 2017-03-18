@@ -61,8 +61,7 @@ function muMdeditorDirective($parse) {
     function previewRender(plainText, preview) {
       angular.element(preview).addClass('markdown-body');
 
-      // console.log(preview)
-      // console.log(plainText)
+
       insertHTML(plainText, preview);
       MathJax.Hub.Typeset(preview);
 
@@ -139,16 +138,7 @@ function muMdeditorDirective($parse) {
         };
         inlineAttachment.editors.codemirror4.attach(scope.mde.codemirror, option);
       }
-      // setTimeout(function() {
-      //   document.querySelectorAll('.editor-statusbar').forEach(function(element) {
-      //     console.log(element);
-      //     var inform = document.createElement("span");
-      //     inform.innerHTML = "支持上传图片: 拖拽上传或复制粘贴";
-      //     inform.className += 'editor-inform';
-      //     console.log(inform)
-      //     element.insertBefore(inform, element.childNodes[0]);
-      //   })
-      // }, 100)
+
 
 
       /* 如果提供了content，则把编辑器的值设置为content的值 */
